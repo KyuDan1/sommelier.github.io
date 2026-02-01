@@ -288,7 +288,7 @@
     activeSegmentIdx = idx;
     const seg = data.segments[idx];
     const info = speakerMap[seg.speaker];
-    const filename = segFilename(idx, seg.speaker);
+    const filename = seg.audio_file || segFilename(idx, seg.speaker);
     const audioUrl = SEGMENTS_DIR + '/' + filename;
 
     const container = document.getElementById('segment-player-info');
