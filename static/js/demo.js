@@ -2,7 +2,6 @@
   'use strict';
 
   const BASE_PATH = './static/audios/test/_final/-sepreformer-True-demucs-True-vad-True-diaModel-dia3-initPrompt-False-merge_gap-2.0-seg_th-0.11-cl_min-11-cl-th-0.5-LLM-case_0/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory';
-  const JSON_URL = BASE_PATH + '/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory.json';
   const SEGMENTS_DIR = BASE_PATH + '/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory';
 
   // Color palette for speakers
@@ -24,22 +23,18 @@
 
   // --- Init ---
   document.addEventListener('DOMContentLoaded', function() {
-    fetch(JSON_URL)
-      .then(r => r.json())
-      .then(json => {
-        data = json;
-        totalDuration = data.metadata.audio_duration_seconds;
-        buildSpeakerMap();
-        renderTimeline();
-        renderTranscript();
-        renderStats();
-        initOriginalPlayer();
-      })
-      .catch(err => {
-        console.error('Failed to load demo data:', err);
-        document.getElementById('timeline-container').innerHTML =
-          '<p style="color:red;">Failed to load demo data. Check console for details.</p>';
-      });
+    if (typeof DEMO_DATA === 'undefined') {
+      document.getElementById('timeline-container').innerHTML =
+        '<p style="color:red;">Failed to load demo data. Ensure demo-data.js is loaded.</p>';
+      return;
+    }
+    data = DEMO_DATA;
+    totalDuration = data.metadata.audio_duration_seconds;
+    buildSpeakerMap();
+    renderTimeline();
+    renderTranscript();
+    renderStats();
+    initOriginalPlayer();
   });
 
   // --- Build speaker mapping ---
