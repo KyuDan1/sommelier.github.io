@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Sommelier: A Scalable Web-Speech Pre-Processing Pipeline for Full-Duplex Speech Language Models">
+        content="🍷Sommelier: A Scalable Web-Speech Pre-Processing Pipeline for Full-Duplex Speech Language Models">
   <meta name="keywords" content="Sommelier, Full-Duplex, Speech Language Models, Conversational AI, Speech Processing">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sommelier: A Scalable Web-Speech Pre-Processing Pipeline for Full-Duplex Speech Language Models</title>
@@ -25,6 +25,7 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  <link rel="stylesheet" href="./static/css/demo.css">
 </head>
 <body>
 
@@ -178,6 +179,89 @@
 </section>
 
 
+<!-- Demo Section -->
+<section class="section" id="demo">
+  <div class="container" style="max-width: 1200px;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Interactive Demo</h2>
+        <p class="subtitle is-5" style="margin-bottom: 2rem;">
+          Explore the Sommelier pipeline output: original audio, separated speaker segments, and transcripts.
+        </p>
+      </div>
+    </div>
+
+    <!-- Original Audio Player -->
+    <div class="box" id="original-audio-box">
+      <h3 class="title is-5" style="margin-bottom: 0.75rem;">Original Audio</h3>
+      <p class="subtitle is-6" style="margin-bottom: 0.5rem; color: #666;">
+        Episode: <strong>Dr. Beth Harris and Dr. Steven Zucker of Smarthistory</strong>
+      </p>
+      <p style="font-size: 0.82rem; color: #888; margin-bottom: 1rem; line-height: 1.6;">
+        From <a href="https://creativecommons.org/2021/11/15/open-minds-podcast-yana-buhrer-tavanier-and-pavel-kounchev-of-fine-acts/" target="_blank" rel="noopener">Open Minds from Creative Commons</a>
+        &middot;
+        <a href="https://podcasts.apple.com/kr/podcast/open-minds-from-creative-commons/id1554356942?i=1000581509635" target="_blank" rel="noopener">
+          <span class="icon is-small"><i class="fas fa-podcast"></i></span> Apple Podcasts
+        </a>
+        &middot;
+        Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons</a>
+      </p>
+      <div id="original-player-container">
+        <audio id="original-audio" preload="metadata"
+               src="./static/audios/test/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory.mp3"></audio>
+        <div id="original-controls">
+          <button id="original-play-btn" class="button is-dark is-small">
+            <span class="icon"><i class="fas fa-play"></i></span>
+          </button>
+          <span id="original-time" style="margin-left: 0.5rem; font-family: monospace; font-size: 0.85rem;">00:00 / 00:00</span>
+          <span id="original-speed" style="margin-left: 0.5rem;">
+            <button class="button is-small is-light" id="speed-btn">1x</button>
+          </span>
+        </div>
+        <div id="original-progress-wrap">
+          <div id="original-progress-bar"></div>
+          <div id="original-progress-cursor"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Visualization -->
+    <div class="box" id="timeline-box">
+      <h3 class="title is-5" style="margin-bottom: 0.5rem;">Speaker Timeline</h3>
+      <p class="subtitle is-6" style="margin-bottom: 1rem; color: #666;">Click any segment to play. The timeline syncs with the original audio.</p>
+      <div id="speaker-legend"></div>
+      <div id="timeline-container"></div>
+    </div>
+
+    <!-- Segment Details & Transcript -->
+    <div class="columns" style="margin-top: 1rem;">
+      <div class="column is-5">
+        <div class="box" id="segment-detail-box" style="height: 600px; overflow-y: auto;">
+          <h3 class="title is-5" style="margin-bottom: 0.75rem;">Segment Player</h3>
+          <div id="segment-player-info">
+            <p style="color: #999;">Click a segment on the timeline or transcript to play it here.</p>
+          </div>
+        </div>
+      </div>
+      <div class="column is-7">
+        <div class="box" id="transcript-box" style="height: 600px; overflow-y: auto;">
+          <h3 class="title is-5" style="margin-bottom: 0.75rem;">
+            Full Transcript
+            <span class="tag is-light" id="segment-count-tag"></span>
+          </h3>
+          <div id="transcript-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processing Stats -->
+    <div class="box" id="stats-box" style="margin-top: 1rem;">
+      <h3 class="title is-5" style="margin-bottom: 0.75rem;">Processing Statistics</h3>
+      <div id="stats-container"></div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
@@ -188,6 +272,8 @@
   </div>
 </section>
 
+
+<script src="./static/js/demo.js"></script>
 
 <footer class="footer">
   <div class="container">
