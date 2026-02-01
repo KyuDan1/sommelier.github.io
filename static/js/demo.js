@@ -1,10 +1,9 @@
-(function() {
+function initDemo(config) {
   'use strict';
 
-  const BASE_PATH = './static/audios/test/_final/-sepreformer-True-demucs-True-vad-True-diaModel-dia3-initPrompt-False-merge_gap-2.0-seg_th-0.11-cl_min-11-cl-th-0.5-LLM-case_0/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory';
-  const SEGMENTS_DIR = BASE_PATH + '/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory';
+  const SEGMENTS_DIR = config.segmentsDir;
+  const suffix = config.suffix || '';
 
-  // Color palette for speakers
   const SPEAKER_COLORS = [
     '#3273dc', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
     '#1abc9c', '#e67e22', '#2980b9', '#c0392b', '#27ae60',
@@ -14,30 +13,21 @@
     '#ff6f00', '#5c6bc0', '#ef5350', '#66bb6a', '#ab47bc'
   ];
 
-  let data = null;
-  let totalDuration = 0;
+  let data = config.data;
+  let totalDuration = data.metadata.audio_duration_seconds;
   let speakerMap = {};
   let speakerOrder = [];
   let activeSegmentIdx = null;
   let segmentAudio = null;
 
-  // --- Init ---
-  document.addEventListener('DOMContentLoaded', function() {
-    if (typeof DEMO_DATA === 'undefined') {
-      document.getElementById('timeline-container').innerHTML =
-        '<p style="color:red;">Failed to load demo data. Ensure demo-data.js is loaded.</p>';
-      return;
-    }
-    data = DEMO_DATA;
-    totalDuration = data.metadata.audio_duration_seconds;
-    buildSpeakerMap();
-    renderTimeline();
-    renderTranscript();
-    renderStats();
-    initOriginalPlayer();
-  });
+  function $(id) { return document.getElementById(id + suffix); }
 
-  // --- Build speaker mapping ---
+  buildSpeakerMap();
+  renderTimeline();
+  renderTranscript();
+  renderStats();
+  initOriginalPlayer();
+
   function buildSpeakerMap() {
     const speakers = new Set();
     data.segments.forEach(s => speakers.add(s.speaker));
@@ -55,7 +45,6 @@
     });
   }
 
-  // --- Format time ---
   function fmtTime(sec) {
     const m = Math.floor(sec / 60);
     const s = Math.floor(sec % 60);
@@ -68,20 +57,18 @@
     return String(m).padStart(2, '0') + ':' + String(s).padStart(5, '0');
   }
 
-  // --- Segment filename ---
   function segFilename(idx, speaker) {
     return String(idx).padStart(5, '0') + '_' + speaker + '.mp3';
   }
 
-  // --- Original Audio Player ---
   function initOriginalPlayer() {
-    const audio = document.getElementById('original-audio');
-    const playBtn = document.getElementById('original-play-btn');
-    const timeDisplay = document.getElementById('original-time');
-    const progressWrap = document.getElementById('original-progress-wrap');
-    const progressBar = document.getElementById('original-progress-bar');
-    const progressCursor = document.getElementById('original-progress-cursor');
-    const speedBtn = document.getElementById('speed-btn');
+    const audio = $('original-audio');
+    const playBtn = $('original-play-btn');
+    const timeDisplay = $('original-time');
+    const progressWrap = $('original-progress-wrap');
+    const progressBar = $('original-progress-bar');
+    const progressCursor = $('original-progress-cursor');
+    const speedBtn = $('speed-btn');
     const speeds = [1, 1.25, 1.5, 2, 0.75];
     let speedIdx = 0;
 
@@ -125,12 +112,10 @@
     });
   }
 
-  // --- Timeline ---
   function renderTimeline() {
-    const container = document.getElementById('timeline-container');
-    const legend = document.getElementById('speaker-legend');
+    const container = $('timeline-container');
+    const legend = $('speaker-legend');
 
-    // Legend
     speakerOrder.forEach(spk => {
       const info = speakerMap[spk];
       const count = data.segments.filter(s => s.speaker === spk).length;
@@ -142,7 +127,6 @@
       legend.appendChild(item);
     });
 
-    // Time axis
     const axisDiv = document.createElement('div');
     axisDiv.className = 'timeline-time-axis';
     const tickInterval = totalDuration > 600 ? 120 : 60;
@@ -155,7 +139,6 @@
     }
     container.appendChild(axisDiv);
 
-    // Speaker rows
     speakerOrder.forEach(spk => {
       const info = speakerMap[spk];
       const row = document.createElement('div');
@@ -170,13 +153,11 @@
       const track = document.createElement('div');
       track.className = 'timeline-track';
 
-      // Playhead for this row
       const playhead = document.createElement('div');
       playhead.className = 'timeline-playhead';
       playhead.dataset.speaker = spk;
       track.appendChild(playhead);
 
-      // Segments for this speaker
       data.segments.forEach((seg, idx) => {
         if (seg.speaker !== spk) return;
         const left = (seg.start / totalDuration) * 100;
@@ -200,16 +181,15 @@
 
   function updateTimelinePlayhead(currentTime) {
     const pct = (currentTime / totalDuration) * 100;
-    document.querySelectorAll('.timeline-playhead').forEach(ph => {
+    $('timeline-container').querySelectorAll('.timeline-playhead').forEach(ph => {
       ph.style.left = pct + '%';
       ph.style.display = 'block';
     });
   }
 
-  // --- Transcript ---
   function renderTranscript() {
-    const container = document.getElementById('transcript-container');
-    const countTag = document.getElementById('segment-count-tag');
+    const container = $('transcript-container');
+    const countTag = $('segment-count-tag');
     countTag.textContent = data.segments.length + ' segments';
 
     data.segments.forEach((seg, idx) => {
@@ -247,16 +227,17 @@
   }
 
   function highlightCurrentTranscript(currentTime) {
-    const entries = document.querySelectorAll('.transcript-entry');
+    if (activeSegmentIdx !== null) return;
+
+    const entries = $('transcript-container').querySelectorAll('.transcript-entry');
     let found = false;
     entries.forEach(e => {
       const start = parseFloat(e.dataset.start);
       const end = parseFloat(e.dataset.end);
-      if (!found && currentTime >= start && currentTime <= end) {
+      if (!found && currentTime >= start && currentTime < end) {
         if (!e.classList.contains('active')) {
           e.classList.add('active');
-          // Scroll into view if needed
-          const box = document.getElementById('transcript-box');
+          const box = $('transcript-box');
           const eTop = e.offsetTop - box.offsetTop;
           const eBot = eTop + e.offsetHeight;
           const scrollTop = box.scrollTop;
@@ -271,11 +252,10 @@
       }
     });
 
-    // Also highlight timeline segments
-    document.querySelectorAll('.timeline-segment').forEach(el => {
+    $('timeline-container').querySelectorAll('.timeline-segment').forEach(el => {
       const idx = parseInt(el.dataset.idx);
       const seg = data.segments[idx];
-      if (currentTime >= seg.start && currentTime <= seg.end) {
+      if (currentTime >= seg.start && currentTime < seg.end) {
         el.classList.add('active');
       } else {
         el.classList.remove('active');
@@ -283,7 +263,6 @@
     });
   }
 
-  // --- Select & Play Segment ---
   function selectSegment(idx) {
     activeSegmentIdx = idx;
     const seg = data.segments[idx];
@@ -291,10 +270,9 @@
     const filename = seg.audio_file || segFilename(idx, seg.speaker);
     const audioUrl = SEGMENTS_DIR + '/' + filename;
 
-    const container = document.getElementById('segment-player-info');
+    const container = $('segment-player-info');
     container.innerHTML = '';
 
-    // Header
     const header = document.createElement('div');
     header.className = 'seg-detail-header';
     const badge = document.createElement('span');
@@ -309,7 +287,6 @@
     header.appendChild(timeRange);
     container.appendChild(header);
 
-    // Audio player
     if (segmentAudio) {
       segmentAudio.pause();
       segmentAudio = null;
@@ -319,17 +296,17 @@
     audioEl.controls = true;
     audioEl.src = audioUrl;
     audioEl.autoplay = true;
+    audioEl.addEventListener('ended', () => { activeSegmentIdx = null; });
+    audioEl.addEventListener('pause', () => { activeSegmentIdx = null; });
     segmentAudio = audioEl;
     container.appendChild(audioEl);
 
-    // Transcript text
     const textDiv = document.createElement('div');
     textDiv.className = 'seg-text';
     textDiv.style.borderLeftColor = info.color;
     textDiv.textContent = seg.text;
     container.appendChild(textDiv);
 
-    // Metadata
     const meta = document.createElement('div');
     meta.className = 'seg-meta';
     const tags = [];
@@ -341,7 +318,6 @@
     meta.innerHTML = tags.map(t => '<span class="tag is-light is-small" style="margin-right:4px;">' + t + '</span>').join('');
     container.appendChild(meta);
 
-    // Alternative transcriptions
     if (seg.text_whisper || seg.text_parakeet || seg.text_canary) {
       const altDiv = document.createElement('div');
       altDiv.style.marginTop = '0.75rem';
@@ -362,26 +338,22 @@
       container.appendChild(altDiv);
     }
 
-    // Also highlight in transcript
-    document.querySelectorAll('.transcript-entry').forEach(e => {
+    $('transcript-container').querySelectorAll('.transcript-entry').forEach(e => {
       e.classList.toggle('active', parseInt(e.dataset.idx) === idx);
     });
 
-    // Scroll transcript to this entry
-    const targetEntry = document.querySelector('.transcript-entry[data-idx="' + idx + '"]');
+    const targetEntry = $('transcript-container').querySelector('.transcript-entry[data-idx="' + idx + '"]');
     if (targetEntry) {
-      const box = document.getElementById('transcript-box');
+      const box = $('transcript-box');
       box.scrollTop = targetEntry.offsetTop - box.offsetTop - box.clientHeight / 3;
     }
 
-    // Jump original audio to this time
-    const origAudio = document.getElementById('original-audio');
+    const origAudio = $('original-audio');
     origAudio.currentTime = seg.start;
   }
 
-  // --- Stats ---
   function renderStats() {
-    const container = document.getElementById('stats-container');
+    const container = $('stats-container');
     const meta = data.metadata;
 
     const stats = [
@@ -389,8 +361,7 @@
       { value: meta.total_segments, label: 'Total Segments' },
       { value: speakerOrder.length, label: 'Speakers Detected' },
       { value: meta.vad_sortformer.rt_factor.toFixed(4), label: 'VAD RTF' },
-      { value: meta.whisper_large_v3.rt_factor.toFixed(4), label: 'Whisper RTF' },
-      { value: meta.whisperx_alignment.rt_factor.toFixed(4), label: 'WhisperX RTF' }
+      { value: meta.whisper_large_v3.rt_factor.toFixed(4), label: 'ASR RTF' }
     ];
 
     stats.forEach(s => {
@@ -401,5 +372,21 @@
       container.appendChild(card);
     });
   }
+}
 
-})();
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof DEMO_DATA !== 'undefined') {
+    initDemo({
+      data: DEMO_DATA,
+      segmentsDir: './static/audios/test1/_final/-sepreformer-True-demucs-True-vad-True-diaModel-dia3-initPrompt-False-merge_gap-2.0-seg_th-0.11-cl_min-11-cl-th-0.5-LLM-case_0/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory',
+      suffix: ''
+    });
+  }
+  if (typeof DEMO_DATA2 !== 'undefined') {
+    initDemo({
+      data: DEMO_DATA2,
+      segmentsDir: './static/audios/test2/test_english_with_overlap_2min/test_english_with_overlap_2min',
+      suffix: '-2'
+    });
+  }
+});

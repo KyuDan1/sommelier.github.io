@@ -1,0 +1,9 @@
+Stage,Processing Time (s),RTF
+Audio Duration,120.00,-
+VAD + Sortformer,1.91,0.0159
+SepReformer Separation,0.15,0.0013
+Whisper Large v3,13.91,0.1159
+WhisperX Alignment,0.00,0.0000
+FlowSE Denoising,4.99,0.0416
+""
+Total Processing Time,20.95,0.1746

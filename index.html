@@ -182,7 +182,7 @@
   <div class="container" style="max-width: 1200px;">
     <div class="columns is-centered has-text-centered">
       <div class="column">
-        <h2 class="title is-3">Interactive Demo</h2>
+        <h2 class="title is-3">Demo (1)</h2>
         <p class="subtitle is-5" style="margin-bottom: 2rem;">
           Explore the Sommelier pipeline output: original audio, separated speaker segments, and transcripts.
         </p>
@@ -206,7 +206,7 @@
       </p>
       <div id="original-player-container">
         <audio id="original-audio" preload="metadata"
-               src="./static/audios/test/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory.mp3"></audio>
+               src="./static/audios/test1/Dr_Beth_Harris_and_Dr_Steven_Zucker_of_Smarthistory.mp3"></audio>
         <div id="original-controls">
           <button id="original-play-btn" class="button is-dark is-small">
             <span class="icon"><i class="fas fa-play"></i></span>
@@ -257,24 +257,87 @@
       <h3 class="title is-5" style="margin-bottom: 0.75rem;">Processing Statistics</h3>
       <div id="stats-container"></div>
     </div>
+
+    <!-- ======== Demo 2 ======== -->
+    <hr style="margin: 3rem 0;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Demo (2)</h2>
+        <p class="subtitle is-5" style="margin-bottom: 2rem;">
+          A second example from a different podcast episode.
+        </p>
+      </div>
+    </div>
+
+    <!-- Original Audio Player 2 -->
+    <div class="box" id="original-audio-box-2">
+      <h3 class="title is-5" style="margin-bottom: 1.5rem;">Original Audio</h3>
+      <p class="subtitle is-6" style="margin-bottom: 0.5rem; color: #666;">
+        Episode: <strong>Test English with Overlap (2min)</strong>
+      </p>
+      <div id="original-player-container-2">
+        <audio id="original-audio-2" preload="metadata"
+               src="./static/audios/test2/test_english_with_overlap_2min/test_english_with_overlap_2min.mp3"></audio>
+        <div id="original-controls-2">
+          <button id="original-play-btn-2" class="button is-dark is-small">
+            <span class="icon"><i class="fas fa-play"></i></span>
+          </button>
+          <span id="original-time-2" style="margin-left: 0.5rem; font-family: monospace; font-size: 0.85rem;">00:00 / 00:00</span>
+          <span id="original-speed-2" style="margin-left: 0.5rem;">
+            <button class="button is-small is-light" id="speed-btn-2">1x</button>
+          </span>
+        </div>
+        <div id="original-progress-wrap-2">
+          <div id="original-progress-bar-2"></div>
+          <div id="original-progress-cursor-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Visualization 2 -->
+    <div class="box" id="timeline-box-2">
+      <h3 class="title is-5" style="margin-bottom: 1.5rem;">Speaker Timeline</h3>
+      <p class="subtitle is-6" style="margin-bottom: 2rem; color: #666;">Click any segment to play. The timeline syncs with the original audio.</p>
+      <div id="speaker-legend-2"></div>
+      <div id="timeline-container-2"></div>
+    </div>
+
+    <!-- Segment Details & Transcript 2 -->
+    <div class="columns" style="margin-top: 1rem;">
+      <div class="column is-5">
+        <div class="box" id="segment-detail-box-2" style="height: 600px; overflow-y: auto;">
+          <h3 class="title is-5" style="margin-bottom: 0.75rem;">Segment Player</h3>
+          <div id="segment-player-info-2">
+            <p style="color: #999;">Click a segment on the timeline or transcript to play it here.</p>
+          </div>
+        </div>
+      </div>
+      <div class="column is-7">
+        <div class="box" id="transcript-box-2" style="height: 600px; overflow-y: auto;">
+          <h3 class="title is-5" style="margin-bottom: 0.75rem;">
+            Full Transcript
+            <span class="tag is-light" id="segment-count-tag-2"></span>
+          </h3>
+          <div id="transcript-container-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processing Stats 2 -->
+    <div class="box" id="stats-box-2" style="margin-top: 1rem;">
+      <h3 class="title is-5" style="margin-bottom: 0.75rem;">Processing Statistics</h3>
+      <div id="stats-container-2"></div>
+    </div>
   </div>
 </section>
 
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{sommelier2025,
-  title     = {Sommelier: A Scalable Web-Speech Pre-Processing Pipeline for Full-Duplex Speech Language Models},
-  year      = {2025},
-}</code></pre>
-  </div>
-</section>
 
 
 <script src="./static/js/demo-data.js"></script>
+<script src="./static/js/demo-data2.js"></script>
 <script src="./static/js/demo.js"></script>
 
-<footer class="footer">
+<!-- <footer class="footer">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-8">
@@ -292,7 +355,7 @@
       </div>
     </div>
   </div>
-</footer>
+</footer> -->
 
 </body>
 </html>

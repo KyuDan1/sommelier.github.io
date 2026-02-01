@@ -6,13 +6,15 @@
 }
 
 /* Original Audio Player */
-#original-controls {
+#original-controls,
+#original-controls-2 {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
-#original-progress-wrap {
+#original-progress-wrap,
+#original-progress-wrap-2 {
   position: relative;
   width: 100%;
   height: 28px;
@@ -23,7 +25,8 @@
   user-select: none;
 }
 
-#original-progress-bar {
+#original-progress-bar,
+#original-progress-bar-2 {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, #3273dc, #485fc7);
@@ -31,7 +34,8 @@
   transition: width 0.1s linear;
 }
 
-#original-progress-cursor {
+#original-progress-cursor,
+#original-progress-cursor-2 {
   position: absolute;
   top: 0;
   left: 0;
@@ -43,7 +47,8 @@
 }
 
 /* Timeline */
-#speaker-legend {
+#speaker-legend,
+#speaker-legend-2 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -72,7 +77,8 @@
   flex-shrink: 0;
 }
 
-#timeline-container {
+#timeline-container,
+#timeline-container-2 {
   position: relative;
   width: 100%;
   overflow-x: auto;
@@ -157,7 +163,8 @@
 }
 
 /* Segment Detail Player */
-#segment-player-info .seg-detail-header {
+#segment-player-info .seg-detail-header,
+#segment-player-info-2 .seg-detail-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -254,7 +261,8 @@
 }
 
 /* Stats */
-#stats-container {
+#stats-container,
+#stats-container-2 {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -283,12 +291,16 @@
 
 /* Scrollbar */
 #transcript-box::-webkit-scrollbar,
-#segment-detail-box::-webkit-scrollbar {
+#segment-detail-box::-webkit-scrollbar,
+#transcript-box-2::-webkit-scrollbar,
+#segment-detail-box-2::-webkit-scrollbar {
   width: 6px;
 }
 
 #transcript-box::-webkit-scrollbar-thumb,
-#segment-detail-box::-webkit-scrollbar-thumb {
+#segment-detail-box::-webkit-scrollbar-thumb,
+#transcript-box-2::-webkit-scrollbar-thumb,
+#segment-detail-box-2::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 3px;
 }
