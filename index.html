@@ -45,8 +45,8 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Sommelier</h1>
-          <h2 class="subtitle is-3">A Scalable Web-Speech Pre-Processing Pipeline for Full-Duplex Speech Language Models</h2>
+          <h1 class="title is-1 publication-title">🍷Sommelier</h1>
+          <h2 class="subtitle is-3">A Scalable Open Multi-turn Audio Pre-processing <br> for Full-duplex Speech Language Models</h2>
 
           <div class="column has-text-centered">
             <div class="publication-links">
@@ -92,7 +92,7 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <div class="has-text-centered">
-        <img src="./static/images/pipeline.png" alt="Sommelier Pipeline Overview" class="publication-image" style="width:100%;">
+        <img src="./static/images/pipeline.png" alt="Sommelier Pipeline Overview" class="publication-image" style="width:110%;">
       </div>
       <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
         Overview of the <span class="dnerf">Sommelier</span> pipeline for curating podcast-style, multi-turn conversational speech suitable for full-duplex training.
@@ -102,45 +102,7 @@
 </section>
 
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Introduction</h2>
-        <div class="content has-text-justified">
-          <p>
-            A key frontier in human&ndash;AI speech interaction is <em>full-duplex</em> dialogue,
-            where listening and speaking occur simultaneously, enabling natural turn-taking, interruptions,
-            and real-time backchanneling. This capability is particularly important in industry, where
-            commercial voice assistants must deliver fluid, human-like interaction to meet user expectations.
-          </p>
-          <p>
-            Despite early progress by systems like Moshi, advancement remains constrained by a scarcity
-            of high-quality conversational data. While Moshi leverages millions of hours of unsupervised
-            audio for pre-training, these recordings are predominantly single-stream and offer limited
-            supervision for overlapping speech, leaving overlap robustness dependent on relatively small
-            high-fidelity resources like Fisher, unlikely to suffice for the thousands of hours of diverse
-            SFT data required by modern speech models.
-          </p>
-          <p>
-            Building datasets for full-duplex interaction is particularly challenging because real-world
-            dialogue contains overlapping speech, background noise, and backchanneling that complicate
-            reliable curation. Beyond these local acoustic challenges, it is critical to ensure that speech
-            streams retain their conversational context, enabling the model to engage in contextually
-            coherent dialogue. Additionally, maintaining a reasonable RTF (Real-Time Factor) per audio
-            sample is critical in real-world industry settings for processing large-scale datasets.
-          </p>
-          <p>
-            To address these challenges, we propose an open, robust, and scalable web-speech pre-processing
-            pipeline designed for full-duplex SLMs.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-  </div>
-</section>
+
 
 
 <section class="section">
